@@ -14,9 +14,14 @@
 
     $('#hotelAdd').on('click', function(){
 
+
+
         var $data = $('#hotel-choices option:selected').text();
 
         $('#hotelList').append('<div class="itenarary-item"><span class="title">' + $data + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button></div>');
+
+        // var cloned = $('#itinerary').clone()
+        // console.log(cloned);
 
         let currentHotel = hotels.filter(hotel => hotel.name === $data)[0]
         let currentMarker = googleMaps.drawMarker('hotel', currentHotel.place.location)
@@ -62,6 +67,31 @@
         })
     });
 
+let emptyClone =  $('#itinerary').clone(true)
+let daysArray = []
+
+    $(".day-btn:contains('1')").on('click', function(){
+        makeMap();
+        //index of prior day, state of prior day
+        let priorDayIndex = +$('.current-day').text()
+        let priorDay = $('#itinerary').clone(true)
+        //puts clone of day on index of day
+        daysArray[priorDayIndex] = priorDay;
+
+        //add current day class
+        $('.day-btn').removeClass('current-day');
+        $(this).addClass('current-day');
+
+        let currentIndex = +$(this).text()
+        //remove all the current stuff
+        $('#itinerary').remove()
+        console.log(emptyClone)
+        if (!daysArray[currentIndex]) $('#new-itinerary').append(emptyClone.clone(true))
+        else $('#new-itinerary').append(daysArray[currentIndex])
+
+        //add the clone from teh right index
+
+    })
 //old name & button removal code
     // $('#hotelList').on('click', '.remove', function(){
     //     $(this).prev('span').remove();
@@ -78,8 +108,45 @@
 
 //
 //add day to trip
+
     $('#day-add').on('click', function(){
         dayCounter++;
-        $('<button class="btn btn-circle day-btn ">' + dayCounter + '</button>').insertBefore('#day-add');
+        var $newbtn = $('<button class="btn btn-circle day-btn ">' + dayCounter + '</button>').insertBefore('#day-add');
+
+
+        $newbtn.on('click', function() {
+             makeMap();
+            //index of prior day, state of prior day
+            let priorDayIndex = +$('.current-day').text()
+            let priorDay = $('#itinerary').clone(true)
+            //puts clone of day on index of day
+            daysArray[priorDayIndex] = priorDay;
+
+            //add current day class
+            $('.day-btn').removeClass('current-day');
+            $(this).addClass('current-day');
+
+            let currentIndex = +$(this).text()
+            //remove all the current stuff
+            $('#itinerary').remove()
+            // var x = $('#new-itinerary').append(daysArray[currentIndex])
+            if (!daysArray[currentIndex]) $('#new-itinerary').append(emptyClone.clone(true))
+
+            else $('#new-itinerary').append(daysArray[currentIndex])
+            console.log(daysArray);
+
+            //add the clone from teh right index
+
+
+        })
     });
+
+    function makeMarkers(){
+
+    }
+
+
+//day button itinerary
+
+
  });
