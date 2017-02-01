@@ -61,8 +61,8 @@ function makeMap() {
           icon: iconURL,
           position: latLng
         });
-        console.log(marker);
         marker.setMap(currentMap);
+        return marker
     }
     return {drawMarker};
 }
